@@ -1,0 +1,90 @@
+@page "/register"
+@inject UserSessionService SessionService
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager Navigation
+
+
+<h3 class="mb-4">Event Registration</h3>
+
+<EditForm Model="@Registration" OnValidSubmit="@HandleSubmit" class="needs-validation">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <InputText @bind-Value="Registration.FullName" class="form-control" />
+        <ValidationMessage For="@(() => Registration.FullName)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <InputText @bind-Value="Registration.Email" class="form-control" />
+        <ValidationMessage For="@(() => Registration.Email)" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Event</label>
+        <InputSelect @bind-Value="Registration.EventId" class="form-select">
+            <option value="">Select an event</option>
+            @foreach (var ev in Events)
+            {
+                <option value="@ev.Id">@ev.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Registration.EventId)" />
+    </div>
+
+    <div class="mb-3 form-check">
+        <InputCheckbox @bind-Value="Registration.AgreeToTerms" class="form-check-input" />
+        <label class="form-check-label">I agree to terms and conditions</label>
+        <ValidationMessage For="@(() => Registration.AgreeToTerms)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</EditForm>
+
+@code {
+    private RegistrationModel Registration { get; set; } = new();
+    private List<EventModel> Events { get; set; } = GetSampleEvents();
+
+    private void HandleSubmit()
+    {
+        // Handle form submission
+        Console.WriteLine($"Registered: {Registration.FullName} for event {Registration.EventId}");
+        SessionService.Login(Registration.Email);
+        Console.WriteLine($"Email: {Registration.Email}");
+        Navigation.NavigateTo("/attendance");
+    }
+
+    private static List<EventModel> GetSampleEvents()
+    {
+        return new List<EventModel>
+{
+new() { Id = 1, Name = "Tech Conference", Date = DateTime.Now.AddDays(30) },
+new() { Id = 2, Name = "Product Workshop", Date = DateTime.Now.AddDays(45) }
+};
+    }
+
+    public class RegistrationModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string FullName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please select an event")]
+        public int? EventId { get; set; }
+
+        [Range(typeof(bool), "true", "true", ErrorMessage = "You must agree to terms")]
+        public bool AgreeToTerms { get; set; }
+    }
+
+    public class EventModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
+    }
+}

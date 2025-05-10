@@ -1,0 +1,36 @@
+@using EventEase_Blazor.Models
+@page "/attendance"
+@inject UserSessionService SessionService
+
+<h3>Participation Tracking</h3>
+
+@if (!SessionService.IsLoggedIn)
+{
+    <p>Please sign in.</p>
+}
+else
+{
+    <p>Welcome, @SessionService.CurrentUserEmail</p>
+    <ul>
+        @foreach (var eventItem in events)
+        {
+            <li>
+                <strong>@eventItem.Name</strong> - @eventItem.Date.ToShortDateString()
+                <button @onclick="() => MarkAttendance(eventItem)">I joined</button>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<EventModel> events = new()
+{
+new() { Name = "Technology Conference", Date = DateTime.Now.AddDays(15), Location = "İstanbul" },
+new() { Name = "Music Festival", Date = DateTime.Now.AddDays(30), Location = "Ankara" }
+};
+
+    private void MarkAttendance(EventModel eventItem)
+    {
+        Console.WriteLine($"{SessionService.CurrentUserEmail} attended the event: {eventItem.Name}");
+    }
+}

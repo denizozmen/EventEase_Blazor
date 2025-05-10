@@ -1,28 +1,32 @@
 # EventEase-Blazor
 
 ```
-EventEase-Blazor/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml          # CI/CD for Azure Static Web Apps
-├── Client/
-│   ├── wwwroot/                # Static files
-│   ├── Components/
-│   │   ├── EventCard.razor     # (Activity 1)
-│   │   ├── EventCard.razor.css
-│   │   ├── RegistrationForm.razor  # (Activity 3)
-│   │   └── AttendanceTracker.razor
-│   ├── Pages/
-│   │   ├── Events.razor        # Event list (Activity 1)
-│   │   ├── EventDetails.razor  # (Activity 1)
-│   │   └── Register.razor      # (Activity 3)
-│   ├── Services/
-│   │   └── UserSessionService.cs  # (Activity 3)
-│   ├── Models/
-│   │   └── EventModel.cs       # Data model (Activity 1)
-│   └── Program.cs              # DI registrations (Activity 3)
-├── README.md                   # Project summary + Copilot usage
-└── EventEase-Blazor.sln
+EventEase_Blazor/
+│
+├── wwwroot/                      # Static files (CSS, JS, images, etc.)
+│
+├── Components/                  # Reusable Blazor components
+│   ├── EventCard.razor         # Displays event details
+│   └── RegistrationForm.razor  # Form for user registration
+│
+├── Pages/                       # Routed pages of the app
+│   ├── Home.razor              # Home/landing page
+│   ├── Events.razor            # Event listing page
+│   └── AttendanceTracker.razor # Tracks user attendance (requires login)
+│
+├── Models/                      # Data models
+│   ├── EventModel.cs           # Represents an event
+│   └── RegistrationData.cs     # Holds form data for registration
+│
+├── Services/                    # Application services
+│   └── UserSessionService.cs   # Manages current user session
+│
+├── Program.cs                   # App entry point and service registration
+├── App.razor                    # Sets up routing and app layout
+├── index.html                   # Main HTML host (under wwwroot)
+├── EventEase_Blazor.csproj      # Project configuration file
+└── README.md                    # Project documentation
+
 ```
 
 # EventEase Blazor App

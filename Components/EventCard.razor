@@ -1,0 +1,16 @@
+<div class="event-card">
+    <!-- One-way binding (Gösterim) -->
+    <h3>@Event.Name</h3>
+    <p>@Event.Date.ToShortDateString()</p>
+    
+    <!-- Two-way binding (Düzenlenebilir alan) -->
+    <input @bind="Event.Location" @bind:event="oninput" placeholder="Location" />
+</div>
+
+@code {
+    [Parameter]
+    public EventModel Event { get; set; } = new(); // Parent component'ten gelen veri
+
+    [Parameter]
+    public EventCallback<EventModel> EventChanged { get; set; } // Değişiklik bildirimi
+}

@@ -1,0 +1,25 @@
+@page "/events"
+@using EventEase_Blazor.Models
+@using EventEase_Blazor.Components
+
+<h1>Events</h1>
+
+@if (events.Any())
+{
+    @foreach (var eventItem in events)
+    {
+        <EventCard Event="eventItem" />
+    }
+}
+else
+{
+    <p>There are no events yet.</p>
+}
+
+@code {
+    private List<EventModel> events = new()
+    {
+        new() { Name = "Technology Conference", Date = DateTime.Now.AddDays(15), Location = "İstanbul" },
+        new() { Name = "Music Festival", Date = DateTime.Now.AddDays(30), Location = "Ankara" }
+    };
+}
